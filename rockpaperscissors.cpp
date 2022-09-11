@@ -52,7 +52,7 @@ QUuid RockPaperScissors::createGameSession(QUuid player1, QUuid player2,QString 
     if(!checkLogin(player1) && !checkLogin(player2))
         throw RPSException(Error::InvalidUSer);
 
-    auto session = std::make_shared<GameSession>(player1,player2);
+    auto session = std::make_shared<GameSession>(player1,player2,name);
     m_gameSessions[session->id()] = session;
     return session->id();
 }
@@ -67,7 +67,7 @@ void RockPaperScissors::DeleteGameSession(QUuid session)
 
 }
 
-bool RockPaperScissors::checkSessionActive(QUuid session)
+bool RockPaperScissors::checkSessionActive(QUuid session) noexcept
 {
     if(!m_gameSessions.contains(session)){
         return false;

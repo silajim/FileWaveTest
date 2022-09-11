@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
 
-qt_add_library(rockpaperscissorsLib
+qt_add_library(rockpaperscissorsLib STATIC
     rockpaperscissors.cpp
     rockpaperscissors.h
     Error.h
