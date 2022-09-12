@@ -47,7 +47,7 @@ void GameSession::setPlayer2move(Moves newPlayer2m)
 
 QUuid GameSession::result()
 {
-    if(m_status != GameSession::GameDone || m_status != GameSession::Finished)
+    if(m_status != GameSession::GameDone && m_status != GameSession::Finished)
         throw RPSException(Error::NotDone);
     QUuid winner;
 

@@ -5,7 +5,7 @@ project(FileWaveTest VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Quick Test REQUIRED)
 
 qt_add_library(rockpaperscissorsLib STATIC
     rockpaperscissors.cpp
@@ -44,3 +44,19 @@ target_link_libraries(appFileWaveTest
 install(TARGETS appFileWaveTest
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+qt_add_executable(rockpaperscissorsLibTest
+    rockpaperscissorslibtest.h rockpaperscissorslibtest.cpp
+)
+
+set_target_properties(rockpaperscissorsLibTest PROPERTIES
+    WIN32_EXECUTABLE TRUE
+    MACOSX_BUNDLE TRUE
+)
+
+target_link_libraries(rockpaperscissorsLibTest PUBLIC
+    Qt::Core
+    Qt::Test
+    rockpaperscissorsLib
+)
+

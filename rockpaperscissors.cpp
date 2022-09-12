@@ -25,7 +25,7 @@ bool RockPaperScissors::createUser(QString user)
 
 QUuid RockPaperScissors::login(QString user)
 {
-    if(!m_users.contains(user)){
+    if(!m_users.contains(user) || m_loggedin.contains(user)){
         throw RPSException(Error::InvalidUSer);
     }
 
@@ -39,17 +39,15 @@ void RockPaperScissors::logout(QUuid user)
     if(!checkLogin(user))
         throw RPSException(Error::InvalidUSer);
 
-    for(auto i= m_loggedin.begin();i != m_loggedin.end() ; ++i){
-        if(i.value()==user){
-            m_loggedin.remove(i.key());
-            break;
-        }
+    QString username = getUserforID(user);
+    if(!username.isEmpty()){
+        m_loggedin.remove(username);
     }
 }
 
 QUuid RockPaperScissors::createGameSession(QUuid player1, QUuid player2,QString name)
 {
-    if(!checkLogin(player1) && !checkLogin(player2))
+    if(player1 == player2 && !checkLogin(player1) && !checkLogin(player2))
         throw RPSException(Error::InvalidUSer);
 
     auto session = std::make_shared<GameSession>(player1,player2,name);
@@ -105,7 +103,7 @@ void RockPaperScissors::makeMove(QUuid session, QUuid player, Moves move)
     }
     auto ses = m_gameSessions[session];
 
-    if(ses->player1() != player && ses->player2() == player){
+    if(ses->player1() != player && ses->player2() != player){
         throw RPSException(Error::InvalidUSer);
     }
 
@@ -129,6 +127,7 @@ QUuid RockPaperScissors::result(QUuid session)
         throw RPSException(Error::InvalidGame);
     }
     QUuid winner;
+    bool updateStats =  m_gameSessions[session]->status() == GameSession::GameDone;
 
     try{
         winner = m_gameSessions[session]->result();
@@ -137,12 +136,16 @@ QUuid RockPaperScissors::result(QUuid session)
     }
 
     uint points=0;
-    if(m_points.contains(winner)){
-        points = m_points[winner];
+    QString username;
+    if(updateStats){
+        username = getUserforID(winner);
+        if(!username.isEmpty() && m_points.contains(username)){
+            points = m_points[username];
+        }
+        ++points;
+        if(!username.isEmpty())
+            m_points[username] = points;
     }
-    ++points;
-
-    m_points[winner] = points;
 
     return winner;
 }
@@ -160,6 +163,15 @@ void RockPaperScissors::StartNextGame(QUuid session)
     }
 }
 
+QList<QPair<QString, uint> > RockPaperScissors::gethighScores()
+{
+    QList<QPair<QString, uint>> scores;
+    for(auto i= m_points.begin();i != m_points.end() ; ++i){
+        scores << qMakePair(i.key(),i.value());
+    }
+    return scores;
+}
+
 bool RockPaperScissors::checkLogin(QUuid user)
 {
     bool found = false;
@@ -171,4 +183,14 @@ bool RockPaperScissors::checkLogin(QUuid user)
 
     }
     return found;
+}
+
+QString RockPaperScissors::getUserforID(QUuid user)
+{
+    for(auto i= m_loggedin.begin();i != m_loggedin.end() ; ++i){
+        if(i.value()==user){
+            return i.key();
+        }
+    }
+    return "";
 }

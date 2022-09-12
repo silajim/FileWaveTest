@@ -19,6 +19,7 @@ public:
     bool createUser(QString user);
     QUuid login(QString user);
     void logout(QUuid user);
+//    QString getUserNameFromId()
     QUuid createGameSession(QUuid player1 , QUuid player2, QString name);
     void DeleteGameSession(QUuid session);
     bool checkSessionActive(QUuid session) noexcept;
@@ -28,13 +29,16 @@ public:
     QUuid result(QUuid session);
     void StartNextGame(QUuid session);
 
+    QList<QPair<QString,uint>> gethighScores();
+
 private:
     QSet<QString> m_users;
     QMap<QString,QUuid> m_loggedin;
     QHash<QUuid,std::shared_ptr<GameSession>> m_gameSessions;
-    QHash<QUuid,uint> m_points;
+    QMap<QString,uint> m_points;
 
     bool checkLogin(QUuid user);
+    QString getUserforID(QUuid user);
 //    QSet<QUuid> m_loggedin;
 };
 
