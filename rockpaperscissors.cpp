@@ -3,10 +3,43 @@
 #include <exception>
 #include "rpsexception.h"
 #include <QUuid>
+#include <QFile>
 
 RockPaperScissors::RockPaperScissors()
 {
+    QFile file("data.dat");
+    if(file.open(QIODevice::ReadOnly)){
+        QDataStream in(&file);
+        in >> m_users >> m_points;
+    }
+}
 
+RockPaperScissors::~RockPaperScissors()
+{
+    foreach(auto game , m_gameSessions){
+        if(game->status() == GameSession::GameDone){
+            result(game->id());
+        }
+    }
+
+    QFile file("data.dat");
+    if(file.open(QIODevice::WriteOnly)){
+        QDataStream out(&file);
+        out << m_users << m_points;
+    }
+}
+
+void RockPaperScissors::clearData()
+{
+
+
+    if(QFile::exists("data.dat")){
+        QFile::remove("data.dat");
+    }
+    m_users.clear();
+    m_loggedin.clear();
+    m_gameSessions.clear();
+    m_points.clear();
 }
 
 bool RockPaperScissors::createUser(QString user)
@@ -165,6 +198,12 @@ void RockPaperScissors::StartNextGame(QUuid session)
 
 QList<QPair<QString, uint> > RockPaperScissors::gethighScores()
 {
+    foreach(auto game , m_gameSessions){
+        if(game->status() == GameSession::GameDone){
+            result(game->id());
+        }
+    }
+
     QList<QPair<QString, uint>> scores;
     for(auto i= m_points.begin();i != m_points.end() ; ++i){
         scores << qMakePair(i.key(),i.value());

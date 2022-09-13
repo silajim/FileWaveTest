@@ -16,6 +16,8 @@ class RockPaperScissors
 {
 public:
     RockPaperScissors();
+    ~RockPaperScissors();
+    void clearData();
     bool createUser(QString user);
     QUuid login(QString user);
     void logout(QUuid user);

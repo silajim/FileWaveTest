@@ -15,6 +15,7 @@ signals:
 private slots:
     void addLoginUser();
     void testGame();
+    void testDataSerialization();
 
 };
 
