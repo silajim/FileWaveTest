@@ -167,17 +167,18 @@ QUuid RockPaperScissors::result(QUuid session)
     } catch (RPSException e) {
         throw e;
     }
-
-    uint points=0;
-    QString username;
-    if(updateStats){
-        username = getUserforID(winner);
-        if(!username.isEmpty() && m_points.contains(username)){
-            points = m_points[username];
+    if(!winner.isNull()){
+        uint points=0;
+        QString username;
+        if(updateStats){
+            username = getUserforID(winner);
+            if(!username.isEmpty() && m_points.contains(username)){
+                points = m_points[username];
+            }
+            ++points;
+            if(!username.isEmpty())
+                m_points[username] = points;
         }
-        ++points;
-        if(!username.isEmpty())
-            m_points[username] = points;
     }
 
     return winner;
@@ -194,6 +195,22 @@ void RockPaperScissors::StartNextGame(QUuid session)
     } catch (RPSException e) {
         throw e;
     }
+}
+
+bool RockPaperScissors::isDone(QUuid session)
+{
+    if(!m_gameSessions.contains(session)){
+        throw RPSException(Error::InvalidGame);
+    }
+    return m_gameSessions[session]->status() == GameSession::GameDone;
+}
+
+bool RockPaperScissors::isFinished(QUuid session)
+{
+    if(!m_gameSessions.contains(session)){
+        throw RPSException(Error::InvalidGame);
+    }
+    return m_gameSessions[session]->status() == GameSession::Finished;
 }
 
 QList<QPair<QString, uint> > RockPaperScissors::gethighScores()

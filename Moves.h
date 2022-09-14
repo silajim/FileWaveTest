@@ -3,7 +3,7 @@
 
 
 enum Moves{
-    Rock,
+    Rock=0,
     Paper,
     Scissors
 };

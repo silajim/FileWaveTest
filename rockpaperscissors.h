@@ -21,7 +21,6 @@ public:
     bool createUser(QString user);
     QUuid login(QString user);
     void logout(QUuid user);
-//    QString getUserNameFromId()
     QUuid createGameSession(QUuid player1 , QUuid player2, QString name);
     void DeleteGameSession(QUuid session);
     bool checkSessionActive(QUuid session) noexcept;
@@ -29,7 +28,9 @@ public:
     QString geteSessionName(QUuid session);
     void makeMove(QUuid session, QUuid player, Moves move);
     QUuid result(QUuid session);
-    void StartNextGame(QUuid session);
+    void StartNextGame(QUuid session);   
+    bool isDone(QUuid session);
+    bool isFinished(QUuid session);   
 
     QList<QPair<QString,uint>> gethighScores();
 
@@ -41,7 +42,6 @@ private:
 
     bool checkLogin(QUuid user);
     QString getUserforID(QUuid user);
-//    QSet<QUuid> m_loggedin;
 };
 
 #endif // ROCKPAPERSCISSORS_H
