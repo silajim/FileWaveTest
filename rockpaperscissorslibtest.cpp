@@ -44,6 +44,7 @@ void rockpaperscissorsLibTest::testGame()
 
 
     QUuid session1id = rps.createGameSession(user1id,user2id,"Test");
+    QCOMPARE(rps.geteSessionName(session1id),"Test");
     QUuid session2id = rps.createGameSession(user3id,user4id,"Test1");
     rps.makeMove(session1id,user1id,Moves::Paper);
     rps.makeMove(session2id,user3id,Moves::Scissors);
@@ -65,6 +66,10 @@ void rockpaperscissorsLibTest::testGame()
     QCOMPARE(scores[0].second , 1);
     QCOMPARE(scores[1].first , "User4");
     QCOMPARE(scores[1].second , 1);
+
+    rps.DeleteGameSession(session1id);
+     QVERIFY_EXCEPTION_THROWN(rps.geteSessionName(session1id),std::exception);
+
 
     rps.clearData();
 
@@ -118,6 +123,22 @@ void rockpaperscissorsLibTest::testDataSerialization()
 
         rps.clearData();
     }
+}
+
+void rockpaperscissorsLibTest::testDeleteGame()
+{
+    RockPaperScissors rps;
+    rps.clearData();
+    rps.createUser("User1");
+    rps.createUser("User2");
+
+    QUuid user1id = rps.login("User1");
+    QUuid user2id = rps.login("User2");
+    QUuid session1id = rps.createGameSession(user1id,user2id,"Test");
+    rps.makeMove(session1id,user1id,Moves::Paper);
+
+    rps.DeleteGameSession(session1id);
+
 }
 
 QTEST_MAIN(rockpaperscissorsLibTest)
