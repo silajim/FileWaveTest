@@ -54,14 +54,8 @@ public slots:
 
     bool createUser(QString user);
     bool login(QString user);
-//    void logout(QUuid user);
     void createGameSession(QString player1 , QString player2, QString name);
-//    void DeleteGameSession(QUuid session);
-//    bool checkSessionActive(QUuid session) noexcept;
-//    void setSessionName(QUuid session,QString name);
-//    QString geteSessionName(QUuid session);
-    void makeMove(QString username, Moves move);
-//    QString result(QUuid session);
+    void makeMove(QString username, ApplicationUI::Moves move);
     QString scores();
     void startNextGame();
     bool isgameFinished();
@@ -79,7 +73,6 @@ signals:
     void errorMessage(QString message);
     void gameCreated();
     void currentGameChanged();
-//    void moveMade(QString username);
     void winner(QString text);
     void gameDoneChanged();
     void nextGameStarted();

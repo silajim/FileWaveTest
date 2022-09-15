@@ -23,16 +23,16 @@ ApplicationUI::ApplicationUI()
 
     //    rps->clearData();
 
-    createUser("user1");
-    createUser("user2");
-    createUser("user3");
-    createUser("user4");
-    login("user1");
-    login("user2");
-    login("user3");
-    login("user4");
-    createGameSession("user1","user2","test");
-    createGameSession("user3","user4","AAATEST");
+//    createUser("user1");
+//    createUser("user2");
+//    createUser("user3");
+//    createUser("user4");
+//    login("user1");
+//    login("user2");
+//    login("user3");
+//    login("user4");
+//    createGameSession("user1","user2","test");
+//    createGameSession("user3","user4","AAATEST");
 }
 
 ApplicationUI::~ApplicationUI()
@@ -75,11 +75,6 @@ bool ApplicationUI::login(QString user)
     return true;
 }
 
-//void ApplicationUI::logout(QUuid user)
-//{
-
-//}
-
 void ApplicationUI::createGameSession(QString player1, QString player2, QString name)
 {
     player1 = player1.toLower();
@@ -109,17 +104,6 @@ void ApplicationUI::createGameSession(QString player1, QString player2, QString 
 
     emit gameCreated();
 }
-
-
-//void ApplicationUI::DeleteGameSession(QUuid session)
-//{
-
-//}
-
-//QString ApplicationUI::geteSessionName(QUuid session)
-//{
-//    return "";
-//}
 
 void ApplicationUI::makeMove(QString username, ApplicationUI::Moves move)
 {
@@ -178,10 +162,6 @@ QString ApplicationUI::scores()
     return scores;
 }
 
-//QString ApplicationUI::result(QUuid session)
-//{
-//    return "";
-//}
 
 void ApplicationUI::startNextGame()
 {
