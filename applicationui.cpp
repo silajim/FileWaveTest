@@ -21,6 +21,8 @@ ApplicationUI::ApplicationUI()
     }, Qt::QueuedConnection);
     engine.load(url);
 
+    ///Debug data to make debugging easier
+
     //    rps->clearData();
 
 //    createUser("user1");

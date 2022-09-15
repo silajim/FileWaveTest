@@ -7,6 +7,19 @@
 
 RockPaperScissors::RockPaperScissors()
 {
+    //*******************************************
+    /*Instead of serializing and de-serializing the user and point arrays the proper way should be to have a DB with 2 tables, one for useres, the other for the high scores
+     * CREATE TABLE Users (
+        id integer PRIMARY KEY AUTOINCREMENT,
+        username string
+       );
+
+       CREATE TABLE Scores (
+        id integer,
+        score integer
+        FOREIGN KEY(id) REFERENCES Users(id)
+       );
+     * */
     QFile file("data.dat");
     if(file.open(QIODevice::ReadOnly)){
         QDataStream in(&file);

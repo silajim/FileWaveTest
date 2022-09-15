@@ -28,6 +28,9 @@ private:
      std::shared_ptr<DataStore> m_datastore;
 };
 
+// I would refactor this to add a GameModel class that would have all of the properties related to the current game.
+// The new class would be a Qobject with Q_PROPERTIES with it's respective getters and signals
+
 class ApplicationUI: public QObject
 {
     Q_OBJECT

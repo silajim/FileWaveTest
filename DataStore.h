@@ -9,10 +9,10 @@
 struct Game{
     QUuid id;
     QString name;
-    bool canp1move = true;
+    bool canp1move = true; //Maybe convert this to an API call?
     QUuid player1;
     QString player1UserName;
-    bool canp2move = true;
+    bool canp2move = true; //Maybe convert this to an API call?
     QUuid player2;
     QString player2UserName;
 };
